@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://ddbjwbtrv8b2i"]
+
+[ext_resource type="Texture2D" uid="uid://b5flr20bgdxqf" path="res://Art/ANIMACAO/noGun-Sheet (2).png" id="1_s11c5"]
+[ext_resource type="Script" path="res://Character/player.gd" id="1_u2umo"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_03l52"]
+radius = 7.0
+height = 34.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vi05e"]
+atlas = ExtResource("1_s11c5")
+region = Rect2(0, 0, 65, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnts8"]
+atlas = ExtResource("1_s11c5")
+region = Rect2(65, 0, 65, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sxwa5"]
+atlas = ExtResource("1_s11c5")
+region = Rect2(130, 0, 65, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ehi3x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vi05e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnts8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sxwa5")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_u2umo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 2)
+shape = SubResource("CapsuleShape2D_03l52")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 3)
+scale = Vector2(1, 1.01563)
+sprite_frames = SubResource("SpriteFrames_ehi3x")
+animation = &"Idle"
