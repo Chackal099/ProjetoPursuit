@@ -24,8 +24,8 @@ func _physics_process(delta):
 		has_double_jumped = false
 		
 		
-		if was_in_air == true:
-			land()
+		#if was_in_air == true:
+			#land()
 			
 		was_in_air = false
 
@@ -40,7 +40,7 @@ func _physics_process(delta):
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	direction = Input.get_vector("left", "right", "up", "down")
 	
-	if direction.x != 0 && animated_sprite.animation != "JumpEnd":
+	if direction:
 		velocity.x = direction.x * speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
@@ -76,11 +76,11 @@ func double_jump():
 	animation_locked = true
 	has_double_jumped = true
 	
-func land():
-	animated_sprite.play("JumpEnd")
-	animation_locked = true
+#func land():
+	#animated_sprite.play("JumpEnd")
+	#animation_locked = true
 
 
 func _on_animated_sprite_2d_animation_finished():
-	if(["JumpEnd", "JumpStart", "JumpDouble"].has(animated_sprite.animation)):
+	if(["JumpStart", "JumpDouble"].has(animated_sprite.animation)):
 		animation_locked = false
