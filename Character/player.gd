@@ -1,7 +1,8 @@
 extends CharacterBody2D
 
 
-@export var speed : float = 200.0
+@export var RunSpeed : float = 200.0
+@export var WalkSpeed : float = 100.0
 @export var jump_velocity : float = -150.0
 @export var double_jump_velocity : float = -100.0
 
@@ -41,10 +42,13 @@ func _physics_process(delta):
 	direction = Input.get_vector("left", "right", "up", "down")
 	
 	if direction:
-		velocity.x = direction.x * speed
+		velocity.x = direction.x * WalkSpeed
+		if Input.is_action_pressed("run"):
+			velocity.x = direction.x * RunSpeed
+			
 	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
-
+		velocity.x = move_toward(velocity.x, 0, WalkSpeed)
+	
 	move_and_slide()
 	update_animation()
 	update_facing_direction()
@@ -55,7 +59,9 @@ func update_animation():
 			animated_sprite.play("JumpLoop")
 		else:
 			if direction.x != 0:
-				animated_sprite.play("Run")
+				animated_sprite.play("Walk")
+				if Input.is_action_pressed("run"):
+					animated_sprite.play("Run")
 			else:
 				animated_sprite.play("Idle")
 
@@ -79,7 +85,6 @@ func double_jump():
 #func land():
 	#animated_sprite.play("JumpEnd")
 	#animation_locked = true
-
 
 func _on_animated_sprite_2d_animation_finished():
 	if(["JumpStart", "JumpDouble"].has(animated_sprite.animation)):
