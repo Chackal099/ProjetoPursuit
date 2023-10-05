@@ -49,8 +49,8 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, WalkSpeed)
 	
-	move_and_slide()
 	update_animation()
+	move_and_slide()
 	update_facing_direction()
 	
 func update_animation():
@@ -58,10 +58,10 @@ func update_animation():
 		if not is_on_floor():
 			animated_sprite.play("JumpLoop")
 		else:
-			if direction.x != 0:
+			if direction.x != 0 && Input.is_action_pressed("run"):
+				animated_sprite.play("Run")
+			elif direction.x != 0:
 				animated_sprite.play("Walk")
-				if Input.is_action_pressed("run"):
-					animated_sprite.play("Run")
 			else:
 				animated_sprite.play("Idle")
 
