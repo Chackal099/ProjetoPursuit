@@ -4,6 +4,9 @@ extends CharacterBody2D
 @export var RunSpeed : float = 200.0
 @export var WalkSpeed : float = 100.0
 @export var jump_velocity : float = -150.0
+@export var slide_standard : float = 300.0
+@export var slide_counter : float = 300.0
+@export var slide_friction : float = 5.0
 @export var double_jump_velocity : float = -100.0
 
 @onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
@@ -39,19 +42,32 @@ func _physics_process(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	direction = Input.get_vector("left", "right", "up", "down")
+	direction = Input.get_vector("left", "right", "up", "crouch")
 	
+	#Dictates the machanics of movement
 	if direction:
+		#Walk Mechanics
 		velocity.x = direction.x * WalkSpeed
+		#Run Mechanics
 		if Input.is_action_pressed("run"):
 			velocity.x = direction.x * RunSpeed
-			
+			#Slide when running Mechanics
+			if Input.is_action_pressed("slide"):
+				velocity.x = direction.x * slide_counter
+				if velocity.x != 0:
+					slide_counter -= slide_friction
+				else:
+					velocity.x = 0
+			elif Input.is_action_just_released("slide"):
+				slide_counter = slide_standard
+		
 	else:
 		velocity.x = move_toward(velocity.x, 0, WalkSpeed)
 	
 	update_animation()
 	move_and_slide()
 	update_facing_direction()
+	#showVel()
 	
 func update_animation():
 	if not animation_locked:
@@ -60,6 +76,8 @@ func update_animation():
 		else:
 			if direction.x != 0 && Input.is_action_pressed("run"):
 				animated_sprite.play("Run")
+				if direction.x != 0 && Input.is_action_pressed("slide"):
+					animated_sprite.play("Slide")
 			elif direction.x != 0:
 				animated_sprite.play("Walk")
 			else:
@@ -85,6 +103,9 @@ func double_jump():
 #func land():
 	#animated_sprite.play("JumpEnd")
 	#animation_locked = true
+	
+func showVel():
+	print(velocity.x)
 
 func _on_animated_sprite_2d_animation_finished():
 	if(["JumpStart", "JumpDouble"].has(animated_sprite.animation)):
