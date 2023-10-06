@@ -7,13 +7,13 @@ extends CharacterBody2D
 @export var slide_standard : float = 300.0
 @export var slide_counter : float = 300.0
 @export var slide_friction : float = 5.0
-@export var double_jump_velocity : float = -100.0
+#@export var double_jump_velocity : float = -100.0
 
 @onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var has_double_jumped : bool = false
+#var has_double_jumped : bool = false
 var animation_locked : bool = false
 var direction : Vector2 = Vector2.ZERO
 var was_in_air : bool = false
@@ -24,8 +24,8 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		was_in_air = true
-	else:
-		has_double_jumped = false
+	#else:
+		#has_double_jumped = false
 		
 		
 		#if was_in_air == true:
@@ -37,8 +37,8 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("jump"):
 		if is_on_floor():
 			jump()
-		elif not has_double_jumped:
-			double_jump()
+		#elif not has_double_jumped:
+			#double_jump()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -94,11 +94,11 @@ func jump():
 	animated_sprite.play("JumpStart")
 	animation_locked = true
 	
-func double_jump():
-	velocity.y = double_jump_velocity
-	animated_sprite.play("JumpDouble")
-	animation_locked = true
-	has_double_jumped = true
+#func double_jump():
+#	velocity.y = double_jump_velocity
+#	animated_sprite.play("JumpDouble")
+#	animation_locked = true
+#	has_double_jumped = true
 	
 #func land():
 	#animated_sprite.play("JumpEnd")
