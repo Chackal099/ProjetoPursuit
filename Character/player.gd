@@ -82,6 +82,9 @@ func update_animation():
 				animated_sprite.play("Walk")
 			else:
 				animated_sprite.play("Idle")
+				if direction.x == 0 && Input.is_action_pressed("crouch"):
+					animated_sprite.play("Crouch")
+					animation_locked = true
 
 func update_facing_direction():
 	if direction.x > 0:
@@ -108,5 +111,5 @@ func showVel():
 	print(velocity.x)
 
 func _on_animated_sprite_2d_animation_finished():
-	if(["JumpStart", "JumpDouble"].has(animated_sprite.animation)):
+	if(["JumpStart", "JumpDouble", "Crouch"].has(animated_sprite.animation)):
 		animation_locked = false
