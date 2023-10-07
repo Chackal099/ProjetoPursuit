@@ -3,6 +3,7 @@ extends CharacterBody2D
 
 @export var RunSpeed : float = 200.0
 @export var WalkSpeed : float = 100.0
+@export var CrouchSpeed : float = 50.0
 @export var jump_velocity : float = -150.0
 @export var slide_standard : float = 300.0
 @export var slide_counter : float = 300.0
@@ -17,7 +18,6 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var animation_locked : bool = false
 var direction : Vector2 = Vector2.ZERO
 var was_in_air : bool = false
-
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -60,7 +60,8 @@ func _physics_process(delta):
 					velocity.x = 0
 			elif Input.is_action_just_released("slide"):
 				slide_counter = slide_standard
-		
+		if Input.is_action_pressed("crouch"):
+			velocity.x = direction.x * CrouchSpeed
 	else:
 		velocity.x = move_toward(velocity.x, 0, WalkSpeed)
 	
@@ -78,13 +79,16 @@ func update_animation():
 				animated_sprite.play("Run")
 				if direction.x != 0 && Input.is_action_pressed("slide"):
 					animated_sprite.play("Slide")
+			elif direction.x != 0 && Input.is_action_pressed("crouch"):
+				animated_sprite.play("CrouchWalk")
 			elif direction.x != 0:
 				animated_sprite.play("Walk")
+				
 			else:
 				animated_sprite.play("Idle")
 				if direction.x == 0 && Input.is_action_pressed("crouch"):
 					animated_sprite.play("Crouch")
-					animation_locked = true
+
 
 func update_facing_direction():
 	if direction.x > 0:
@@ -111,5 +115,5 @@ func showVel():
 	print(velocity.x)
 
 func _on_animated_sprite_2d_animation_finished():
-	if(["JumpStart", "JumpDouble", "Crouch"].has(animated_sprite.animation)):
+	if(["JumpStart", "JumpDouble"].has(animated_sprite.animation)):
 		animation_locked = false
