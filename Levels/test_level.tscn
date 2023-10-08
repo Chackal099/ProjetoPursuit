@@ -1429,7 +1429,7 @@ sources/0 = SubResource("TileSetAtlasSource_x4fxh")
 format = 2
 
 [node name="Background" type="Sprite2D" parent="TileMap2"]
-position = Vector2(209.75, 143.5)
+position = Vector2(201, 188)
 scale = Vector2(1.72396, 1.49632)
 texture = ExtResource("1_psy8x")
 
