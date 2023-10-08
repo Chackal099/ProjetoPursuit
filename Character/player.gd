@@ -52,15 +52,15 @@ func _physics_process(delta):
 		if Input.is_action_pressed("run"):
 			velocity.x = direction.x * RunSpeed
 			#Slide when running Mechanics
-			if Input.is_action_pressed("slide"):
+			if Input.is_action_pressed("crouch"):
 				velocity.x = direction.x * slide_counter
 				if velocity.x != 0:
 					slide_counter -= slide_friction
 				else:
-					velocity.x = 0
-			elif Input.is_action_just_released("slide"):
+					velocity.x = direction.x * CrouchSpeed
+			elif Input.is_action_just_released("crouch"):
 				slide_counter = slide_standard
-		if Input.is_action_pressed("crouch"):
+		elif Input.is_action_pressed("crouch"):
 			velocity.x = direction.x * CrouchSpeed
 	else:
 		velocity.x = move_toward(velocity.x, 0, WalkSpeed)
@@ -77,8 +77,10 @@ func update_animation():
 		else:
 			if direction.x != 0 && Input.is_action_pressed("run"):
 				animated_sprite.play("Run")
-				if direction.x != 0 && Input.is_action_pressed("slide"):
+				if direction.x != 0 && Input.is_action_pressed("crouch"):
 					animated_sprite.play("Slide")
+				elif direction.x == 0:
+					animated_sprite.play("Crouch")
 			elif direction.x != 0 && Input.is_action_pressed("crouch"):
 				animated_sprite.play("CrouchWalk")
 			elif direction.x != 0:
