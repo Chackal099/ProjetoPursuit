@@ -1,8 +1,9 @@
-[gd_scene load_steps=41 format=3 uid="uid://ddbjwbtrv8b2i"]
+[gd_scene load_steps=42 format=3 uid="uid://ddbjwbtrv8b2i"]
 
 [ext_resource type="Texture2D" uid="uid://b5flr20bgdxqf" path="res://Art/ANIMACAO/noGun-Sheet (2).png" id="1_s11c5"]
 [ext_resource type="Script" path="res://Character/player.gd" id="1_u2umo"]
 [ext_resource type="Texture2D" uid="uid://crgk61yl74yhb" path="res://Art/ANIMACAO/Ducking.png" id="2_2wwrm"]
+[ext_resource type="Texture2D" uid="uid://ds4e31d32kbv7" path="res://Art/ANIMACAO/Slide.png" id="4_hui53"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_03l52"]
 radius = 7.0
@@ -120,9 +121,9 @@ region = Rect2(896, 0, 64, 64)
 atlas = ExtResource("1_s11c5")
 region = Rect2(960, 0, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1ti14"]
-atlas = ExtResource("1_s11c5")
-region = Rect2(832, 32, 64, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_sxv3o"]
+atlas = ExtResource("4_hui53")
+region = Rect2(0, 0, 65, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m44ux"]
 atlas = ExtResource("1_s11c5")
@@ -271,13 +272,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1ti14")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1ti14")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1ti14")
+"texture": SubResource("AtlasTexture_sxv3o")
 }],
 "loop": false,
 "name": &"Slide",
@@ -318,7 +313,7 @@ shape = SubResource("CapsuleShape2D_03l52")
 position = Vector2(0, 3)
 scale = Vector2(1, 1.01563)
 sprite_frames = SubResource("SpriteFrames_ehi3x")
-animation = &"Crouch"
+animation = &"Slide"
 autoplay = "Idle"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
