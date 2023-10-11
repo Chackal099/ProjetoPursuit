@@ -10,8 +10,9 @@ extends CharacterBody2D
 @export var slide_friction : float = 5.0
 #@export var double_jump_velocity : float = -100.0
 
-@onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var animated_sprite : Sprite2D = $Sprite2D
 @onready var animation_tree : AnimationTree = $AnimationTree
+@onready var state_machine : CharacterStateMachine = $CharacterStateMachine
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -51,7 +52,7 @@ func _physics_process(delta):
 	direction = Input.get_vector("left", "right", "up", "crouch")
 	
 	#Dictates the machanics of movement
-	if direction:
+	if direction.x != 0 && state_machine.check_if_can_move():
 		#Walk Mechanics
 		velocity.x = direction.x * WalkSpeed
 		#Run Mechanics
@@ -108,7 +109,7 @@ func update_facing_direction():
 
 func jump():
 	velocity.y = jump_velocity
-	animated_sprite.play("JumpStart")
+#	animated_sprite.play("JumpStart")
 	animation_locked = true
 	
 #func double_jump():
@@ -124,6 +125,6 @@ func jump():
 func showVel():
 	print(velocity.x)
 
-func _on_animated_sprite_2d_animation_finished():
-	if(["JumpStart", "JumpDouble"].has(animated_sprite.animation)):
-		animation_locked = false
+#func _on_animated_sprite_2d_animation_finished():
+#	if(["JumpStart", "JumpDouble"].has(animated_sprite.animation)):
+#		animation_locked = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://ddbjwbtrv8b2i"]
+[gd_scene load_steps=57 format=3 uid="uid://ddbjwbtrv8b2i"]
 
 [ext_resource type="Texture2D" uid="uid://b5flr20bgdxqf" path="res://Art/ANIMACAO/noGun-Sheet (2).png" id="1_s11c5"]
 [ext_resource type="Script" path="res://Character/player.gd" id="1_u2umo"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://ds4e31d32kbv7" path="res://Art/ANIMACAO/Slide.png" id="4_hui53"]
 [ext_resource type="Texture2D" uid="uid://c86xuqvn8124l" path="res://Art/ANIMACAO/new-idle.png" id="5_34641"]
 [ext_resource type="Texture2D" uid="uid://cn5lrgs8h2rpq" path="res://Art/ANIMACAO/walk-no-gun.png" id="6_svb2c"]
+[ext_resource type="Script" path="res://Character/CharacterStateMachine.gd" id="7_f3hy5"]
+[ext_resource type="Script" path="res://Character/GroundState.gd" id="8_pbsgr"]
+[ext_resource type="Script" path="res://Character/AirState.gd" id="9_mku5u"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_03l52"]
 radius = 7.0
@@ -487,5 +490,15 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_vpnyb")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Move/blend_position = 0.0
+
+[node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("current_state")]
+script = ExtResource("7_f3hy5")
+current_state = NodePath("Ground")
+
+[node name="Ground" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("8_pbsgr")
+
+[node name="Air" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("9_mku5u")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
