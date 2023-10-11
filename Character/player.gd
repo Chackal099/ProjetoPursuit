@@ -11,6 +11,7 @@ extends CharacterBody2D
 #@export var double_jump_velocity : float = -100.0
 
 @onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
+@onready var animation_tree : AnimationTree = $AnimationTree
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -18,6 +19,11 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var animation_locked : bool = false
 var direction : Vector2 = Vector2.ZERO
 var was_in_air : bool = false
+
+
+func _ready():
+	animation_tree.active = true
+	
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -71,25 +77,27 @@ func _physics_process(delta):
 	#showVel()
 	
 func update_animation():
-	if not animation_locked:
-		if not is_on_floor():
-			animated_sprite.play("JumpLoop")
-		else:
-			if direction.x != 0 && Input.is_action_pressed("run"):
-				animated_sprite.play("Run")
-				if direction.x != 0 && Input.is_action_pressed("crouch"):
-					animated_sprite.play("Slide")
-				elif direction.x == 0:
-					animated_sprite.play("Crouch")
-			elif direction.x != 0 && Input.is_action_pressed("crouch"):
-				animated_sprite.play("CrouchWalk")
-			elif direction.x != 0:
-				animated_sprite.play("Walk")
-				
-			else:
-				animated_sprite.play("Idle")
-				if direction.x == 0 && Input.is_action_pressed("crouch"):
-					animated_sprite.play("Crouch")
+	animation_tree.set("parameters/Move/blend_position", direction.x)
+	
+#	if not animation_locked:
+#		if not is_on_floor():
+#			animated_sprite.play("JumpLoop")
+#		else:
+#			if direction.x != 0 && Input.is_action_pressed("run"):
+#				animated_sprite.play("Run")
+#				if direction.x != 0 && Input.is_action_pressed("crouch"):
+#					animated_sprite.play("Slide")
+#				elif direction.x == 0:
+#					animated_sprite.play("Crouch")
+#			elif direction.x != 0 && Input.is_action_pressed("crouch"):
+#				animated_sprite.play("CrouchWalk")
+#			elif direction.x != 0:
+#				animated_sprite.play("Walk")
+#
+#			else:
+#				animated_sprite.play("Idle")
+#				if direction.x == 0 && Input.is_action_pressed("crouch"):
+#					animated_sprite.play("Crouch")
 
 
 func update_facing_direction():
