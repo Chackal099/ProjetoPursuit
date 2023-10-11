@@ -1,31 +1,35 @@
 extends CharacterBody2D
 
 
-@export var speed : float = 200.0
+@export var RunSpeed : float = 200.0
+@export var WalkSpeed : float = 100.0
+@export var CrouchSpeed : float = 50.0
 @export var jump_velocity : float = -150.0
-@export var double_jump_velocity : float = -100.0
+@export var slide_standard : float = 300.0
+@export var slide_counter : float = 300.0
+@export var slide_friction : float = 5.0
+#@export var double_jump_velocity : float = -100.0
 
 @onready var animated_sprite : AnimatedSprite2D = $AnimatedSprite2D
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var has_double_jumped : bool = false
+#var has_double_jumped : bool = false
 var animation_locked : bool = false
 var direction : Vector2 = Vector2.ZERO
 var was_in_air : bool = false
-
 
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		was_in_air = true
-	else:
-		has_double_jumped = false
+	#else:
+		#has_double_jumped = false
 		
 		
-		if was_in_air == true:
-			land()
+		#if was_in_air == true:
+			#land()
 			
 		was_in_air = false
 
@@ -33,31 +37,60 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("jump"):
 		if is_on_floor():
 			jump()
-		elif not has_double_jumped:
-			double_jump()
+		#elif not has_double_jumped:
+			#double_jump()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	direction = Input.get_vector("left", "right", "up", "down")
+	direction = Input.get_vector("left", "right", "up", "crouch")
 	
-	if direction.x != 0 && animated_sprite.animation != "JumpEnd":
-		velocity.x = direction.x * speed
+	#Dictates the machanics of movement
+	if direction:
+		#Walk Mechanics
+		velocity.x = direction.x * WalkSpeed
+		#Run Mechanics
+		if Input.is_action_pressed("run"):
+			velocity.x = direction.x * RunSpeed
+			#Slide when running Mechanics
+			if Input.is_action_pressed("crouch"):
+				velocity.x = direction.x * slide_counter
+				if velocity.x != 0:
+					slide_counter -= slide_friction
+				else:
+					velocity.x = direction.x * CrouchSpeed
+			elif Input.is_action_just_released("crouch"):
+				slide_counter = slide_standard
+		elif Input.is_action_pressed("crouch"):
+			velocity.x = direction.x * CrouchSpeed
 	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
-
-	move_and_slide()
+		velocity.x = move_toward(velocity.x, 0, WalkSpeed)
+	
 	update_animation()
+	move_and_slide()
 	update_facing_direction()
+	#showVel()
 	
 func update_animation():
 	if not animation_locked:
 		if not is_on_floor():
 			animated_sprite.play("JumpLoop")
 		else:
-			if direction.x != 0:
+			if direction.x != 0 && Input.is_action_pressed("run"):
 				animated_sprite.play("Run")
+				if direction.x != 0 && Input.is_action_pressed("crouch"):
+					animated_sprite.play("Slide")
+				elif direction.x == 0:
+					animated_sprite.play("Crouch")
+			elif direction.x != 0 && Input.is_action_pressed("crouch"):
+				animated_sprite.play("CrouchWalk")
+			elif direction.x != 0:
+				animated_sprite.play("Walk")
+				
 			else:
 				animated_sprite.play("Idle")
+				if direction.x == 0 && Input.is_action_pressed("crouch"):
+					animated_sprite.play("Crouch")
+
 
 func update_facing_direction():
 	if direction.x > 0:
@@ -70,17 +103,19 @@ func jump():
 	animated_sprite.play("JumpStart")
 	animation_locked = true
 	
-func double_jump():
-	velocity.y = double_jump_velocity
-	animated_sprite.play("JumpDouble")
-	animation_locked = true
-	has_double_jumped = true
+#func double_jump():
+#	velocity.y = double_jump_velocity
+#	animated_sprite.play("JumpDouble")
+#	animation_locked = true
+#	has_double_jumped = true
 	
-func land():
-	animated_sprite.play("JumpEnd")
-	animation_locked = true
-
+#func land():
+	#animated_sprite.play("JumpEnd")
+	#animation_locked = true
+	
+func showVel():
+	print(velocity.x)
 
 func _on_animated_sprite_2d_animation_finished():
-	if(["JumpEnd", "JumpStart", "JumpDouble"].has(animated_sprite.animation)):
+	if(["JumpStart", "JumpDouble"].has(animated_sprite.animation)):
 		animation_locked = false
