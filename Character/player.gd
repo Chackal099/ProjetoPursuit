@@ -1,13 +1,10 @@
 extends CharacterBody2D
 
 
-@export var RunSpeed : float = 200.0
 @export var WalkSpeed : float = 100.0
 @export var CrouchSpeed : float = 50.0
-@export var jump_velocity : float = -150.0
-@export var slide_standard : float = 300.0
-@export var slide_counter : float = 300.0
-@export var slide_friction : float = 5.0
+@export var RunSpeed : float = 200.0
+
 #@export var double_jump_velocity : float = -100.0
 
 @onready var animated_sprite : Sprite2D = $Sprite2D
@@ -43,7 +40,7 @@ func _physics_process(delta):
 	# Handle Jump.
 	if Input.is_action_just_pressed("jump"):
 		if is_on_floor():
-			jump()
+			pass
 		#elif not has_double_jumped:
 			#double_jump()
 
@@ -56,26 +53,26 @@ func _physics_process(delta):
 		#Walk Mechanics
 		velocity.x = direction.x * WalkSpeed
 		#Run Mechanics
-		if Input.is_action_pressed("run"):
-			velocity.x = direction.x * RunSpeed
-			#Slide when running Mechanics
-			if Input.is_action_pressed("crouch"):
-				velocity.x = direction.x * slide_counter
-				if velocity.x != 0:
-					slide_counter -= slide_friction
-				else:
-					velocity.x = direction.x * CrouchSpeed
-			elif Input.is_action_just_released("crouch"):
-				slide_counter = slide_standard
-		elif Input.is_action_pressed("crouch"):
-			velocity.x = direction.x * CrouchSpeed
+		#if Input.is_action_pressed("run"):
+			#velocity.x = direction.x * RunSpeed
+#			#Slide when running Mechanics
+#			if Input.is_action_pressed("crouch"):
+#				velocity.x = direction.x * slide_counter
+#				if velocity.x != 0:
+#					slide_counter -= slide_friction
+#				else:
+#					velocity.x = direction.x * CrouchSpeed
+#			elif Input.is_action_just_released("crouch"):
+#				slide_counter = slide_standard
+#		elif Input.is_action_pressed("crouch"):
+#			velocity.x = direction.x * CrouchSpeed
 	else:
 		velocity.x = move_toward(velocity.x, 0, WalkSpeed)
 	
 	update_animation()
 	move_and_slide()
 	update_facing_direction()
-	#showVel()
+	showVel()
 	
 func update_animation():
 	animation_tree.set("parameters/Move/blend_position", direction.x)
@@ -106,11 +103,6 @@ func update_facing_direction():
 		animated_sprite.flip_h = false
 	elif direction.x < 0:
 		animated_sprite.flip_h = true
-
-func jump():
-	velocity.y = jump_velocity
-#	animated_sprite.play("JumpStart")
-	animation_locked = true
 	
 #func double_jump():
 #	velocity.y = double_jump_velocity
