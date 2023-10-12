@@ -3,6 +3,7 @@ extends Node
 class_name CharacterStateMachine
 
 @export var character : CharacterBody2D
+@export var animation_tree : AnimationTree
 @export var current_state : State
 
 var states: Array[State]

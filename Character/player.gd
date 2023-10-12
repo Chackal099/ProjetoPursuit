@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var WalkSpeed : float = 100.0
 @export var CrouchSpeed : float = 50.0
 @export var RunSpeed : float = 200.0
+@export var jump_velocity : float = -200.0
 
 #@export var double_jump_velocity : float = -100.0
 
@@ -46,15 +47,15 @@ func _physics_process(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	direction = Input.get_vector("left", "right", "up", "crouch")
+	direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 	
 	#Dictates the machanics of movement
 	if direction.x != 0 && state_machine.check_if_can_move():
 		#Walk Mechanics
 		velocity.x = direction.x * WalkSpeed
 		#Run Mechanics
-		#if Input.is_action_pressed("run"):
-			#velocity.x = direction.x * RunSpeed
+		if Input.is_action_pressed("run"):
+			velocity.x = direction.x * RunSpeed
 #			#Slide when running Mechanics
 #			if Input.is_action_pressed("crouch"):
 #				velocity.x = direction.x * slide_counter

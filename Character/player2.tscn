@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://ddbjwbtrv8b2i"]
+[gd_scene load_steps=65 format=3 uid="uid://ddbjwbtrv8b2i"]
 
 [ext_resource type="Texture2D" uid="uid://b5flr20bgdxqf" path="res://Art/ANIMACAO/noGun-Sheet (2).png" id="1_s11c5"]
 [ext_resource type="Script" path="res://Character/player.gd" id="1_u2umo"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://Character/AirState.gd" id="9_mku5u"]
 [ext_resource type="Script" path="res://Character/RunningState.gd" id="10_jbhgb"]
 [ext_resource type="Script" path="res://Character/StateDebugLabel.gd" id="11_oitya"]
+[ext_resource type="Script" path="res://Character/WalkingState.gd" id="12_tdb7l"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_03l52"]
 radius = 7.0
@@ -556,14 +557,18 @@ script = ExtResource("8_pbsgr")
 air_state = NodePath("../Air")
 running_state = NodePath("../Running")
 
-[node name="Air" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("ground_state")]
+[node name="Air" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("ground_state", "running_state")]
 script = ExtResource("9_mku5u")
 ground_state = NodePath("../Ground")
+running_state = NodePath("../Running")
 
 [node name="Running" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("ground_state", "air_state")]
 script = ExtResource("10_jbhgb")
 ground_state = NodePath("../Ground")
 air_state = NodePath("../Air")
+
+[node name="Walking" type="Node" parent="CharacterStateMachine"]
+script = ExtResource("12_tdb7l")
 
 [node name="StateDebugLabel" type="Label" parent="." node_paths=PackedStringArray("state_machine")]
 offset_left = -69.0
