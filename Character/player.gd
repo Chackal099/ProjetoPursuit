@@ -5,6 +5,9 @@ extends CharacterBody2D
 @export var CrouchSpeed : float = 50.0
 @export var RunSpeed : float = 200.0
 @export var jump_velocity : float = -200.0
+@export var slide_standard : float = 300.0
+@export var slide_counter : float = 300.0
+@export var slide_friction : float = 5.0
 
 #@export var double_jump_velocity : float = -100.0
 
@@ -50,12 +53,12 @@ func _physics_process(delta):
 	direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 	
 	#Dictates the machanics of movement
-	if direction.x != 0 && state_machine.check_if_can_move():
-		#Walk Mechanics
-		velocity.x = direction.x * WalkSpeed
+#	if direction.x != 0 && state_machine.check_if_can_move():
+#		#Walk Mechanics
+#		velocity.x = direction.x * WalkSpeed
 		#Run Mechanics
-		if Input.is_action_pressed("run"):
-			velocity.x = direction.x * RunSpeed
+#		if Input.is_action_pressed("run"):
+#			velocity.x = direction.x * RunSpeed
 #			#Slide when running Mechanics
 #			if Input.is_action_pressed("crouch"):
 #				velocity.x = direction.x * slide_counter
@@ -66,9 +69,9 @@ func _physics_process(delta):
 #			elif Input.is_action_just_released("crouch"):
 #				slide_counter = slide_standard
 #		elif Input.is_action_pressed("crouch"):
-#			velocity.x = direction.x * CrouchSpeed
-	else:
-		velocity.x = move_toward(velocity.x, 0, WalkSpeed)
+##			velocity.x = direction.x * CrouchSpeed
+#	else:
+#		velocity.x = move_toward(velocity.x, 0, WalkSpeed)
 	
 	update_animation()
 	move_and_slide()
@@ -121,3 +124,12 @@ func showVel():
 #func _on_animated_sprite_2d_animation_finished():
 #	if(["JumpStart", "JumpDouble"].has(animated_sprite.animation)):
 #		animation_locked = false
+#
+#func slide():
+#	velocity.x = direction.x * slide_counter
+#	if velocity.x != 0:
+#		slide_counter -= slide_friction
+#	else:
+#		velocity.x = direction.x * CrouchSpeed
+#
+#
