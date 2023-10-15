@@ -8,6 +8,8 @@ class_name RunningState
 @export var slide_counter : float = 300.0
 @export var slide_friction : float = 5.0
 
+@export var move_animation : String = "move"
+
 @onready var state_machine : CharacterStateMachine = $/root/TestLevel/player2/CharacterStateMachine
 
 
@@ -41,4 +43,5 @@ func state_process(delta):
 	if(Input.is_action_just_pressed("jump")):
 		next_state = air_state
 	if(Input.is_action_just_released("run")):
+		playback.travel(move_animation)
 		next_state = ground_state

@@ -5,6 +5,9 @@ class_name GroundState
 @export var air_state : State
 @export var running_state : State
 
+@export var sprint_animation : String = "sprint"
+@export var jump_animation : String = "jump"
+
 @onready var state_machine : CharacterStateMachine = $/root/TestLevel/player2/CharacterStateMachine
 
 func _physics_process(delta):
@@ -27,8 +30,10 @@ func state_input(event : InputEvent):
 
 func jump():
 	character.velocity.y = character.jump_velocity
+	playback.travel(jump_animation)
 	next_state = air_state
 	
 func sprint():
 	character.velocity.x = character.direction.x * character.RunSpeed
+	playback.travel(sprint_animation)
 	next_state = running_state
