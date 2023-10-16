@@ -7,6 +7,8 @@ class_name GroundState
 
 @export var sprint_animation : String = "sprint"
 @export var jump_animation : String = "jump"
+@export var duckwalk_animation : String = "duckwalk"
+@export var move_animation : String = "move"
 
 @onready var state_machine : CharacterStateMachine = $/root/TestLevel/player2/CharacterStateMachine
 
@@ -16,8 +18,13 @@ func _physics_process(delta):
 			character.velocity.x = character.direction.x * character.WalkSpeed
 			if Input.is_action_pressed("crouch"):
 				character.velocity.x = character.direction.x * character.CrouchSpeed
+				playback.travel(duckwalk_animation)
+			elif Input.is_action_just_released("crouch"):
+				playback.travel(move_animation)
 		else:
 			character.velocity.x = move_toward(character.velocity.x, 0, character.WalkSpeed)
+			if Input.is_action_just_released("crouch"):
+				playback.travel(move_animation)
 
 
 func state_input(event : InputEvent):

@@ -9,6 +9,9 @@ class_name RunningState
 @export var slide_friction : float = 5.0
 
 @export var move_animation : String = "move"
+@export var slide_animation : String = "slide"
+@export var duckwalk_animation : String = "duckwalk"
+
 
 @onready var state_machine : CharacterStateMachine = $/root/TestLevel/player2/CharacterStateMachine
 
@@ -31,11 +34,14 @@ func state_input(event : InputEvent):
 		ground_state.jump()
 
 func slide():
+	playback.travel(slide_animation)
 	character.velocity.x = character.direction.x * slide_counter
 	if character.velocity.x != 0:
 		slide_counter -= slide_friction
 	else:
 		character.velocity.x = character.direction.x * character.CrouchSpeed
+		playback.travel(duckwalk_animation)
+		
 
 
 
