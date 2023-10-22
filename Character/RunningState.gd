@@ -11,6 +11,7 @@ class_name RunningState
 @export var move_animation : String = "move"
 @export var slide_animation : String = "slide"
 @export var duckwalk_animation : String = "duckwalk"
+@export var sprint_animation : String = "sprint"
 
 
 @onready var state_machine : CharacterStateMachine = $/root/TestLevel/player2/CharacterStateMachine
@@ -26,6 +27,8 @@ func _physics_process(delta):
 		slide()
 	elif (Input.is_action_just_released("crouch")):
 		slide_counter = slide_standard
+		if (Input.is_action_pressed("run")):
+			playback.travel(sprint_animation)
 
 
 

@@ -12,6 +12,8 @@ class_name GroundState
 
 @onready var state_machine : CharacterStateMachine = $/root/TestLevel/player2/CharacterStateMachine
 
+var was_in_air : bool = false
+
 func _physics_process(delta):
 		if character.direction.x != 0 && state_machine.check_if_can_move() && state_machine.current_state != running_state:
 		#Walk Mechanics
@@ -38,6 +40,7 @@ func state_input(event : InputEvent):
 func jump():
 	character.velocity.y = character.jump_velocity
 	playback.travel(jump_animation)
+	was_in_air = true
 	next_state = air_state
 	
 func sprint():

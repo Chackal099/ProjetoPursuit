@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://ddbjwbtrv8b2i"]
+[gd_scene load_steps=80 format=3 uid="uid://ddbjwbtrv8b2i"]
 
 [ext_resource type="Texture2D" uid="uid://b5flr20bgdxqf" path="res://Art/ANIMACAO/noGun-Sheet (2).png" id="1_s11c5"]
 [ext_resource type="Script" path="res://Character/player.gd" id="1_u2umo"]
@@ -312,6 +312,47 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="Animation" id="Animation_yh6cq"]
+resource_name = "DuckWalk"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("9_dxnv5")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
 [sub_resource type="Animation" id="Animation_wnusp"]
 resource_name = "Idle"
 length = 0.3
@@ -432,6 +473,46 @@ tracks/2/keys = {
 "values": [ExtResource("5_34641")]
 }
 
+[sub_resource type="Animation" id="Animation_j86pa"]
+resource_name = "Slide"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_hui53")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
 [sub_resource type="Animation" id="Animation_it6dr"]
 resource_name = "Sprint"
 length = 0.6
@@ -514,87 +595,6 @@ tracks/2/keys = {
 "values": [0, 1, 2, 3, 4]
 }
 
-[sub_resource type="Animation" id="Animation_j86pa"]
-resource_name = "Slide"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("4_hui53")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [3]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 2]
-}
-
-[sub_resource type="Animation" id="Animation_yh6cq"]
-resource_name = "DuckWalk"
-length = 0.4
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("9_dxnv5")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:hframes")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [2]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 1]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g56m7"]
 _data = {
 "DuckWalk": SubResource("Animation_yh6cq"),
@@ -659,6 +659,8 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wkxhg"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tbe1l"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vpnyb"]
 states/DuckWalk/node = SubResource("AnimationNodeAnimation_4cufm")
 states/DuckWalk/position = Vector2(534, 33.8596)
@@ -671,7 +673,7 @@ states/Slide/position = Vector2(738, 40)
 states/Sprint/node = SubResource("AnimationNodeAnimation_0dgyu")
 states/Sprint/position = Vector2(627, 112)
 states/Start/position = Vector2(163, 100)
-transitions = ["Start", "Move", SubResource("AnimationNodeStateMachineTransition_ffhad"), "Move", "JumpStart", SubResource("AnimationNodeStateMachineTransition_8cy13"), "JumpStart", "Move", SubResource("AnimationNodeStateMachineTransition_37ifm"), "Move", "Sprint", SubResource("AnimationNodeStateMachineTransition_jij1w"), "Sprint", "Move", SubResource("AnimationNodeStateMachineTransition_xc4ue"), "Sprint", "Slide", SubResource("AnimationNodeStateMachineTransition_x6gh2"), "Slide", "Sprint", SubResource("AnimationNodeStateMachineTransition_7yysx"), "Slide", "DuckWalk", SubResource("AnimationNodeStateMachineTransition_lc3np"), "DuckWalk", "Move", SubResource("AnimationNodeStateMachineTransition_16eh5"), "Move", "DuckWalk", SubResource("AnimationNodeStateMachineTransition_wkxhg")]
+transitions = ["Start", "Move", SubResource("AnimationNodeStateMachineTransition_ffhad"), "Move", "JumpStart", SubResource("AnimationNodeStateMachineTransition_8cy13"), "JumpStart", "Move", SubResource("AnimationNodeStateMachineTransition_37ifm"), "Move", "Sprint", SubResource("AnimationNodeStateMachineTransition_jij1w"), "Sprint", "Move", SubResource("AnimationNodeStateMachineTransition_xc4ue"), "Sprint", "Slide", SubResource("AnimationNodeStateMachineTransition_x6gh2"), "Slide", "Sprint", SubResource("AnimationNodeStateMachineTransition_7yysx"), "Slide", "DuckWalk", SubResource("AnimationNodeStateMachineTransition_lc3np"), "DuckWalk", "Move", SubResource("AnimationNodeStateMachineTransition_16eh5"), "Move", "DuckWalk", SubResource("AnimationNodeStateMachineTransition_wkxhg"), "DuckWalk", "Sprint", SubResource("AnimationNodeStateMachineTransition_tbe1l")]
 graph_offset = Vector2(0, -40.1404)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
@@ -731,6 +733,7 @@ air_state = NodePath("../Air")
 move_animation = "Move"
 slide_animation = "Slide"
 duckwalk_animation = "DuckWalk"
+sprint_animation = "Sprint"
 
 [node name="StateDebugLabel" type="Label" parent="." node_paths=PackedStringArray("state_machine")]
 offset_left = -69.0
