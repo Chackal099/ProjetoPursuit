@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://ddbjwbtrv8b2i"]
+[gd_scene load_steps=80 format=3 uid="uid://ddbjwbtrv8b2i"]
 
 [ext_resource type="Texture2D" uid="uid://b5flr20bgdxqf" path="res://Art/ANIMACAO/noGun-Sheet (2).png" id="1_s11c5"]
 [ext_resource type="Script" path="res://Character/player.gd" id="1_u2umo"]
@@ -6,6 +6,14 @@
 [ext_resource type="Texture2D" uid="uid://ds4e31d32kbv7" path="res://Art/ANIMACAO/Slide.png" id="4_hui53"]
 [ext_resource type="Texture2D" uid="uid://c86xuqvn8124l" path="res://Art/ANIMACAO/new-idle.png" id="5_34641"]
 [ext_resource type="Texture2D" uid="uid://cn5lrgs8h2rpq" path="res://Art/ANIMACAO/walk-no-gun.png" id="6_svb2c"]
+[ext_resource type="Texture2D" uid="uid://cc3sedlt21e6q" path="res://Art/ANIMACAO/jump-no-gun.png" id="7_5gvaa"]
+[ext_resource type="Script" path="res://Character/CharacterStateMachine.gd" id="7_f3hy5"]
+[ext_resource type="Script" path="res://Character/GroundState.gd" id="8_pbsgr"]
+[ext_resource type="Texture2D" uid="uid://dhas7vdghd3yd" path="res://Art/ANIMACAO/new-run-no-gun.png" id="8_urcv2"]
+[ext_resource type="Texture2D" uid="uid://db1l3b51uhooo" path="res://Art/ANIMACAO/duckwalk.png" id="9_dxnv5"]
+[ext_resource type="Script" path="res://Character/AirState.gd" id="9_mku5u"]
+[ext_resource type="Script" path="res://Character/RunningState.gd" id="10_jbhgb"]
+[ext_resource type="Script" path="res://Character/StateDebugLabel.gd" id="11_oitya"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_03l52"]
 radius = 7.0
@@ -304,6 +312,47 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="Animation" id="Animation_yh6cq"]
+resource_name = "DuckWalk"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("9_dxnv5")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
 [sub_resource type="Animation" id="Animation_wnusp"]
 resource_name = "Idle"
 length = 0.3
@@ -345,6 +394,46 @@ tracks/2/keys = {
 "values": [0, 1, 2]
 }
 
+[sub_resource type="Animation" id="Animation_oi4rr"]
+resource_name = "JumpStart"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("7_5gvaa")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [12]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+}
+
 [sub_resource type="Animation" id="Animation_oiexo"]
 length = 0.001
 tracks/0/type = "value"
@@ -382,6 +471,87 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("5_34641")]
+}
+
+[sub_resource type="Animation" id="Animation_j86pa"]
+resource_name = "Slide"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_hui53")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_it6dr"]
+resource_name = "Sprint"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("8_urcv2")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
 }
 
 [sub_resource type="Animation" id="Animation_u5maj"]
@@ -427,10 +597,20 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g56m7"]
 _data = {
+"DuckWalk": SubResource("Animation_yh6cq"),
 "Idle": SubResource("Animation_wnusp"),
+"JumpStart": SubResource("Animation_oi4rr"),
 "RESET": SubResource("Animation_oiexo"),
+"Slide": SubResource("Animation_j86pa"),
+"Sprint": SubResource("Animation_it6dr"),
 "Walk": SubResource("Animation_u5maj")
 }
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4cufm"]
+animation = &"DuckWalk"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_d8ega"]
+animation = &"JumpStart"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_425kh"]
 animation = &"Idle"
@@ -450,14 +630,51 @@ blend_point_2/node = SubResource("AnimationNodeAnimation_kw28i")
 blend_point_2/pos = 1.0
 blend_mode = 1
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kh453"]
+animation = &"Slide"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0dgyu"]
+animation = &"Sprint"
+
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ffhad"]
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_8cy13"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_37ifm"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jij1w"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xc4ue"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_x6gh2"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_7yysx"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_lc3np"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_16eh5"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wkxhg"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tbe1l"]
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vpnyb"]
+states/DuckWalk/node = SubResource("AnimationNodeAnimation_4cufm")
+states/DuckWalk/position = Vector2(534, 33.8596)
+states/JumpStart/node = SubResource("AnimationNodeAnimation_d8ega")
+states/JumpStart/position = Vector2(330, 27)
 states/Move/node = SubResource("AnimationNodeBlendSpace1D_bsnls")
 states/Move/position = Vector2(466, 112)
+states/Slide/node = SubResource("AnimationNodeAnimation_kh453")
+states/Slide/position = Vector2(738, 40)
+states/Sprint/node = SubResource("AnimationNodeAnimation_0dgyu")
+states/Sprint/position = Vector2(627, 112)
 states/Start/position = Vector2(163, 100)
-transitions = ["Start", "Move", SubResource("AnimationNodeStateMachineTransition_ffhad")]
+transitions = ["Start", "Move", SubResource("AnimationNodeStateMachineTransition_ffhad"), "Move", "JumpStart", SubResource("AnimationNodeStateMachineTransition_8cy13"), "JumpStart", "Move", SubResource("AnimationNodeStateMachineTransition_37ifm"), "Move", "Sprint", SubResource("AnimationNodeStateMachineTransition_jij1w"), "Sprint", "Move", SubResource("AnimationNodeStateMachineTransition_xc4ue"), "Sprint", "Slide", SubResource("AnimationNodeStateMachineTransition_x6gh2"), "Slide", "Sprint", SubResource("AnimationNodeStateMachineTransition_7yysx"), "Slide", "DuckWalk", SubResource("AnimationNodeStateMachineTransition_lc3np"), "DuckWalk", "Move", SubResource("AnimationNodeStateMachineTransition_16eh5"), "Move", "DuckWalk", SubResource("AnimationNodeStateMachineTransition_wkxhg"), "DuckWalk", "Sprint", SubResource("AnimationNodeStateMachineTransition_tbe1l")]
+graph_offset = Vector2(0, -40.1404)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_u2umo")
@@ -471,7 +688,7 @@ visible = false
 position = Vector2(0, 3)
 scale = Vector2(1, 1.01563)
 sprite_frames = SubResource("SpriteFrames_ehi3x")
-animation = &"Slide"
+animation = &"JumpStart"
 autoplay = "Idle"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -487,5 +704,44 @@ libraries = {
 tree_root = SubResource("AnimationNodeStateMachine_vpnyb")
 anim_player = NodePath("../AnimationPlayer")
 parameters/Move/blend_position = 0.0
+
+[node name="CharacterStateMachine" type="Node" parent="." node_paths=PackedStringArray("character", "animation_tree", "current_state")]
+script = ExtResource("7_f3hy5")
+character = NodePath("..")
+animation_tree = NodePath("../AnimationTree")
+current_state = NodePath("Ground")
+
+[node name="Ground" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("air_state", "running_state")]
+script = ExtResource("8_pbsgr")
+air_state = NodePath("../Air")
+running_state = NodePath("../Running")
+sprint_animation = "Sprint"
+jump_animation = "JumpStart"
+duckwalk_animation = "DuckWalk"
+move_animation = "Move"
+
+[node name="Air" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("ground_state", "running_state")]
+script = ExtResource("9_mku5u")
+ground_state = NodePath("../Ground")
+running_state = NodePath("../Running")
+sprint_animation = "Sprint"
+
+[node name="Running" type="Node" parent="CharacterStateMachine" node_paths=PackedStringArray("ground_state", "air_state")]
+script = ExtResource("10_jbhgb")
+ground_state = NodePath("../Ground")
+air_state = NodePath("../Air")
+move_animation = "Move"
+slide_animation = "Slide"
+duckwalk_animation = "DuckWalk"
+sprint_animation = "Sprint"
+
+[node name="StateDebugLabel" type="Label" parent="." node_paths=PackedStringArray("state_machine")]
+offset_left = -69.0
+offset_top = -45.0
+offset_right = 63.0
+offset_bottom = -19.0
+text = "State: "
+script = ExtResource("11_oitya")
+state_machine = NodePath("../CharacterStateMachine")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
