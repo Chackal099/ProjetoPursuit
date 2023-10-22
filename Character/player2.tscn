@@ -1,9 +1,11 @@
-[gd_scene load_steps=42 format=3 uid="uid://ddbjwbtrv8b2i"]
+[gd_scene load_steps=54 format=3 uid="uid://ddbjwbtrv8b2i"]
 
 [ext_resource type="Texture2D" uid="uid://b5flr20bgdxqf" path="res://Art/ANIMACAO/noGun-Sheet (2).png" id="1_s11c5"]
 [ext_resource type="Script" path="res://Character/player.gd" id="1_u2umo"]
 [ext_resource type="Texture2D" uid="uid://crgk61yl74yhb" path="res://Art/ANIMACAO/Ducking.png" id="2_2wwrm"]
 [ext_resource type="Texture2D" uid="uid://ds4e31d32kbv7" path="res://Art/ANIMACAO/Slide.png" id="4_hui53"]
+[ext_resource type="Texture2D" uid="uid://c86xuqvn8124l" path="res://Art/ANIMACAO/new-idle.png" id="5_34641"]
+[ext_resource type="Texture2D" uid="uid://cn5lrgs8h2rpq" path="res://Art/ANIMACAO/walk-no-gun.png" id="6_svb2c"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_03l52"]
 radius = 7.0
@@ -302,6 +304,161 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="Animation" id="Animation_wnusp"]
+resource_name = "Idle"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_34641")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_oiexo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_34641")]
+}
+
+[sub_resource type="Animation" id="Animation_u5maj"]
+resource_name = "Walk"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_svb2c")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g56m7"]
+_data = {
+"Idle": SubResource("Animation_wnusp"),
+"RESET": SubResource("Animation_oiexo"),
+"Walk": SubResource("Animation_u5maj")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_425kh"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_qr5vd"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kw28i"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_bsnls"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_425kh")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_qr5vd")
+blend_point_1/pos = -1.0
+blend_point_2/node = SubResource("AnimationNodeAnimation_kw28i")
+blend_point_2/pos = 1.0
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ffhad"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_vpnyb"]
+states/Move/node = SubResource("AnimationNodeBlendSpace1D_bsnls")
+states/Move/position = Vector2(466, 112)
+states/Start/position = Vector2(163, 100)
+transitions = ["Start", "Move", SubResource("AnimationNodeStateMachineTransition_ffhad")]
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_u2umo")
 
@@ -310,10 +467,25 @@ position = Vector2(-1, 2)
 shape = SubResource("CapsuleShape2D_03l52")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(0, 3)
 scale = Vector2(1, 1.01563)
 sprite_frames = SubResource("SpriteFrames_ehi3x")
 animation = &"Slide"
 autoplay = "Idle"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 3)
+texture = ExtResource("5_34641")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_g56m7")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_vpnyb")
+anim_player = NodePath("../AnimationPlayer")
+parameters/Move/blend_position = 0.0
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
